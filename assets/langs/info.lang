@@ -1,0 +1,14 @@
+:: How .lang files work and how to implement your language
+::
+:: Lang files are were created to easily support multiple languages
+:: inside an application
+::
+:: Any line starting with two columns is a comment and will be ignored
+::
+:: The first line of a file should always be the encoding of the file
+:: and it's prefixed by !=
+:: Example for a file that uses UTF-8 encoding
+!=UTF-8
+::
+:: After that you can start defining the values, there are two ways
+:: to do so: the first one is to use set. A set

@@ -1,0 +1,13 @@
+{
+    "last_level": 0,
+    "fullscreen": true,
+    "screen_res": [
+        1280,
+        720
+    ],
+    "language": "EN",
+    "music_volume": 1.0,
+    "sfx_volume": 1.0,
+    "show_hitboxes": false,
+    "show_fps": false
+}

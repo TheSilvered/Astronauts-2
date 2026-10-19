@@ -1,0 +1,7 @@
+.idea/
+__pycache__
+*.zip
+*.exe
+build/
+dist/
+Executable/

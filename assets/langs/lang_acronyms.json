@@ -1,0 +1,7 @@
+{
+    "list": ["EN", "IT"],
+    "associations": {
+        "EN": "English",
+        "IT": "Italiano"
+    }
+}

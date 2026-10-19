@@ -1,0 +1,34 @@
+Arguments:
+    type ["solid", "transparent", "custom_solid"]: type of the hitbox of the
+        block, solid means that the whole block collides with the player,
+        transparent that it doesn't have any collision and custom_solid has a
+        custom hitbox
+
+    res [array]: two-element array with the number of blocks in the x and y
+        axis respectively
+
+    ids [array]: start and end of the IDs given at each block, the las number is
+        not included ("ids" = [1, 5] -> 1, 2, 3, 4),
+        if the range of the ids is smaller than the number of blocks, the blocks
+        outside said range won't be loaded
+
+    kills [boolean]: if when the player collides with this block gets killed,
+        if the "type" is "transparent" this will not work
+
+    if the type is set to "custom_solid" there are two more arguments
+
+    hitboxes [array[array]]: an array containing as many arrays as the blocks,
+        these second arrays have a length of 2, the first value being the width
+        and the second being the height, the values can go from 0 to 16
+
+    hitboxes_offset [array[array]]: an array containing as many arrays as the
+        blocks, these second arrays have a length of 2, the first value being
+        the x offset of the hitbox from the upper left corner and the second
+        being the y offset, the values can go from 0 to 16
+
+
+The blocks are loaded in columns from top to bottom in this pattern:
+1 4 7
+2 5 8
+3 6 9
+(This example shows the loading pattern of a 3x3-tiles texture)

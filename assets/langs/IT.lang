@@ -1,0 +1,107 @@
+!=UTF-8
+::
+::
+$Loading
+  @loading_levels:Caricamento livelli...
+  @gen_elements:Generazione interfacce...
+::
+::
+$General
+  @back:   Indietro
+  @yes:Sì
+  @no:No
+  @or_:o
+  @ok:Ok
+  @cancel:Annulla
+::
+::
+$PlayScreen
+  @play:Gioca
+  @settings:Opzioni
+  @editor:Editor
+::
+::
+$LevelSelection
+  @level:Livello {level_no}
+  ~@back;General.back
+::
+::
+$InGameScreen
+  @flip_gravity:Inverti gravità [G]
+  @retry:Riprova [R]
+  ~@back;General.back
+::
+::
+$NextLevel
+  @level_completed:Livello completato!
+  @next_level:Continua
+  ~@back;General.back
+::
+::
+$EndScreen
+  @congrats:Hai completato tutti i livelli!
+  @back_to_levels:Torna alla griglia dei livelli
+::
+::
+$Settings
+  @sound:Suono
+  @video:Video
+  @music:Musica
+  @sfx:Effetti sonori
+  @fullscreen:Schermo intero: {state}
+  @show_fps:Mostra FPS: {state}
+  @restart_to_apply:Riavvia il gioco per applicare le impostazioni
+  ~@back;General.back
+::
+::
+$Credits
+  @game_made_by:Questo gioco è stato fatto da:
+  @song:{song!r} di {author}
+  ~@music;Settings.music
+  ~@back;General.back
+::
+::
+$Editor
+  ~@back;General.back
+  @layer:Layer {layer_no}
+  @no_level:Nessun livello
+  @overwrite
+  Questo livello esiste già,
+  vuoi rimpiazzarlo?
+  @failed_trash
+  Questo livello non può essere
+  messo nel cestino, vuoi
+  eliminarlo permanentemente?
+  @failed_deletion:Impossibile eliminare livello
+  @failed_opening:Impossibile aprire il file selezionato
+  @confirm_deletion
+  Confermi di voler eliminare
+  questo livello?
+::
+::
+$HelpScreen
+  ~@back;General.back
+  @controls:Controlli
+  ~@editor;PlayScreen.editor
+  @movement
+  Per andare a sinistra premi [A] o [FRECCIA SX], per
+  andare a destra premi [D] or [FRECCIA DX] e per
+  saltare premi [W], [FRECCIA SU] o [SPACE]. Per
+  invertire la gravità premi [G], [S] o [FRECCIA GIÙ]
+  e per resettare premi [R].
+  $$Editor
+    @layers
+    I layer permettono di mettere più di un blocco sulla stessa posizione.
+    Layer più alti sono davanti a layer più bassi.
+    @block
+    Per scegliere un blocco nell'editor, clicca sulla freccia blu vicino alla
+    X bianca per scegliere il tipo di blocco e con la rotellina del mouse puoi
+    scegliere il blocco effettivo.
+    @move_door
+    Puoi cambiare la posizione delle porte trascinandole per il livello e per
+    invertirle basta cliccarci sopra.
+    @move_player
+    Allo stesso modo, per cambiare la posizione del player, puoi trascinarlo.
+    Ricorda che quando si gioca un livello, la gravità dei player è sempre
+    verso il basso per il player di sinistra e verso l'alto per il player di destra.
+::

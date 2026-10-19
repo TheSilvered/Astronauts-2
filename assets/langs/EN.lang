@@ -1,0 +1,107 @@
+!=UTF-8
+::
+::
+$Loading
+  @loading_levels:Loading levels...
+  @gen_elements:Generating layouts...
+::
+::
+$General
+  @back:    Back
+  @yes:Yes
+  @no:No
+  @or_:or
+  @ok:OK
+  @cancel:Cancel
+::
+::
+$PlayScreen
+  @play:Play
+  @settings:Settings
+  @editor:Editor
+::
+::
+$LevelSelection
+  @level:Level {level_no}
+  ~@back;General.back
+::
+::
+$InGameScreen
+  @flip_gravity:Flip gravity [G]
+  @retry:Retry [R]
+  ~@back;General.back
+::
+::
+$NextLevel
+  @level_completed:Level completed!
+  @next_level:Next level
+  ~@back;General.back
+::
+::
+$EndScreen
+  @congrats:You completed all the levels!
+  @back_to_levels:Back to the level grid
+::
+::
+$Settings
+  @sound:Sound
+  @video:Video
+  @music:Music
+  @sfx:Sound effects
+  @fullscreen:Fullscreen: {state}
+  @show_fps:Show FPS: {state}
+  @restart_to_apply:Restart the game to apply the settings
+  ~@back;General.back
+::
+::
+$Credits
+  @game_made_by:This game was made by:
+  @song:{song!r} by {author}
+  ~@music;Settings.music
+  ~@back;General.back
+::
+::
+$Editor
+  ~@back;General.back
+  @layer:Layer {layer_no}
+  @no_level:No level loaded
+  @overwrite
+  This level already exists,
+  do you want to replace it?
+  @failed_trash
+  This level can't be sent to the
+  trash can, do you want to
+  delete it permanently?
+  @failed_deletion:This level can't be deleted
+  @failed_opening:Cannot open the selected file
+  @confirm_deletion
+  Are you sure you want to
+  delete this level?
+::
+::
+$HelpScreen
+  ~@back;General.back
+  @controls:Controls
+  ~@editor;PlayScreen.editor
+  @movement
+  To move left press [A] or [LEFT ARROW], to move right
+  press [D] or [RIGHT ARROW] and to jump press [W],
+  [UP ARROW] or [SPACE].
+  To flip the gravity press [G], [S] or [DOWN ARROW]
+  and to reset press [R].
+  $$Editor
+    @layers
+    The layers allow to place multiple blocks on the same position, blocks
+    on lower layers appear behind blocks on higher layers.
+    @block
+    To select a block in the editor, click on the blue arrow next to the white
+    X to select the type of the block and with the mouse wheel change the
+    actual block.
+    @move_door
+    You can change the position of the doors by dragging them around the
+    level and flip them by clicking on top.
+    @move_player
+    Similarly to move the player, use the controls or drag the player around.
+    Remember that when a level is played, the gravity of the players is always
+    pointing down for the player on the left and up for the one on the right.
+::
