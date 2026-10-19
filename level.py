@@ -6,7 +6,8 @@ import pygame
 import encrypter
 import gameassets as ga
 from constants import TILE_SIZE, PIXEL, PER_TILE_ERROR, \
-                      LEVEL_OFFSET_RIGHT, LEVEL_OFFSET_LEFT, LOCAL_DIR
+                      LEVEL_OFFSET_RIGHT, LEVEL_OFFSET_LEFT, LOCAL_DIR, \
+                      LEVELS_LIST, LEVELS_DIR
 from assets_import import DOOR_FRAME, DOOR_FRAME_FLIPPED, DOOR_ANI_0, \
                           DOOR_ANI_1, DOOR_ANI_2, DOOR_ANI_3, DOOR_ANI_4
 
@@ -221,14 +222,20 @@ class Level:
 
 def load_levels():
     global levels, custom_levels_start
-    with open(os.path.join(LOCAL_DIR, "assets/levels/levels.json")) as level_list_file:
+    levels = []
+    for level in LEVELS_LIST:
+        levels.append(os.path.join(LOCAL_DIR, f"assets/levels/{level}"))
+    levels_file = os.path.join(LEVELS_DIR, "levels.json")
+    if not os.path.isfile(levels_file):
+        if not os.path.isdir(LEVELS_DIR):
+            os.mkdir(LEVELS_DIR)
+        with open(levels_file, "w") as level_list_file:
+            json.dump({"order": [], "files": {}}, level_list_file)
+    with open(levels_file) as level_list_file:
         level_list = json.load(level_list_file)
-        levels = []
-        for level in level_list["normal"]:
-            levels.append(os.path.join(LOCAL_DIR, f"assets/levels/{level}"))
-        custom_levels_start = len(level_list["normal"])
-        for level_name in level_list["custom"][":order"]:
-            levels.append((level_name, level_list["custom"][level_name]))
+        custom_levels_start = len(levels)
+        for level_name in level_list["order"]:
+            levels.append((level_name, level_list["files"][level_name]))
 
 
 def load_level(path):

@@ -1,0 +1,18 @@
+{
+    "order": [
+        "level8",
+        "level9",
+        "level10",
+        "level11",
+        "Max size level",
+        "My Level"
+    ],
+    "files": {
+        "level8": "level8.level",
+        "level9": "level9.level",
+        "level10": "level10.level",
+        "level11": "level11.level",
+        "Max size level": "Max size level.level",
+        "My Level": "My Level.level"
+    }
+}

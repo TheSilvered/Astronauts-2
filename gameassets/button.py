@@ -247,7 +247,6 @@ class Button(MouseInteraction):
 
         self._can_run = True
 
-        del self.image
         self.image = None
 
     @property

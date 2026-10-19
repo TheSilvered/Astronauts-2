@@ -16,8 +16,18 @@ if "\\" in sys.argv[0]:
     LOCAL_DIR = "\\".join(sys.argv[0].split("\\")[:-1])
 else:
     LOCAL_DIR = "/".join(sys.argv[0].split("/")[:-1])
+if LOCAL_DIR == "":
+    LOCAL_DIR = "."
 
-SETTINGS_PATH = f"{os.getenv('APPDATA')}/astronauts/player_data/settings.json"
+if sys.platform == "win32":
+    DATA_DIR = f"{os.getenv('APPDATA')}/astronauts/player_data"
+elif sys.platform == "darwin":
+    DATA_DIR = f"{os.getenv('HOME')}/Library/Application Support/astronauts/player_data"
+else:
+    DATA_DIR = f"{os.getenv('XDG_CONFIG_HOME')}/astronauts/player_data"
+
+SETTINGS_PATH = DATA_DIR + "/settings.json"
+LEVELS_DIR = DATA_DIR + "/levels"
 
 try:
     with open(SETTINGS_PATH, "r") as settings_file:
@@ -27,13 +37,25 @@ except Exception:
                  '"language": "EN", "music_volume": 1.0, "sfx_volume": 1.0,'\
                  '"show_hitboxes": false, "show_fps": false}'
 
-    if not os.path.isdir(f"{os.getenv('APPDATA')}/astronauts"):
-        os.mkdir(f"{os.getenv('APPDATA')}/astronauts")
-    if not os.path.isdir(f"{os.getenv('APPDATA')}/astronauts/player_data"):
-        os.mkdir(f"{os.getenv('APPDATA')}/astronauts/player_data")
+    if sys.platform == "win32":
+        if not os.path.isdir(f"{os.getenv('APPDATA')}/astronauts"):
+            os.mkdir(f"{os.getenv('APPDATA')}/astronauts")
+        if not os.path.isdir(f"{os.getenv('APPDATA')}/astronauts/player_data"):
+            os.mkdir(f"{os.getenv('APPDATA')}/astronauts/player_data")
+    elif sys.platform == "darwin":
+        if not os.path.isdir(f"{os.getenv('HOME')}/Library/Application Support/astronauts"):
+            os.mkdir(f"{os.getenv('HOME')}/Library/Application Support/astronauts")
+        if not os.path.isdir(f"{os.getenv('HOME')}/Library/Application Support/astronauts/player_data"):
+            os.mkdir(f"{os.getenv('HOME')}/Library/Application Support/astronauts/player_data")
+    else:
+        if not os.path.isdir(f"{os.getenv('XDG_CONFIG_HOME')}/astronauts"):
+            os.mkdir(f"{os.getenv('XDG_CONFIG_HOME')}/astronauts")
+        if not os.path.isdir(f"{os.getenv('XDG_CONFIG_HOME')}/astronauts/player_data"):
+            os.mkdir(f"{os.getenv('XDG_CONFIG_HOME')}/astronauts/player_data")
     with open(SETTINGS_PATH, "w") as settings_file:
         settings_file.write(__settings)
     settings = json.loads(__settings)
+
 
 # ==================== CONSTANTS ====================
 
@@ -61,10 +83,18 @@ LANG = lang.load_txt(settings["language"], f"{LOCAL_DIR}/assets/langs")
 LANGS = lang_info["list"]
 LANG_NAMES = lang_info["associations"]
 
-with open(f"{LOCAL_DIR}/assets/levels/levels.json") as levels_list_file:
-    LEVELS_LIST = json.load(levels_list_file)
+LEVELS_LIST = [
+    "level0.level",
+    "level1.level",
+    "level2.level",
+    "level3.level",
+    "level4.level",
+    "level5.level",
+    "level6.level",
+    "level7.level"
+]
 
-LOCKED_LEVELS = [f"{LOCAL_DIR}/assets/levels/{i}" for i in LEVELS_LIST["normal"]]
+LOCKED_LEVELS = [f"{LOCAL_DIR}/assets/levels/{i}" for i in LEVELS_LIST]
 LOCKED_LEVELS.append(f"{LOCAL_DIR}/assets/levels/new_level_default.level")
 
 if not ALLOWED_SCREEN_RES: ALLOWED_SCREEN_RES.append(["NaN ", " NaN"])

@@ -2,6 +2,7 @@ from math import cos, degrees, sqrt
 import time
 import random
 import os
+import subprocess
 
 import webbrowser
 import tkinter
@@ -376,24 +377,47 @@ def decrease_language():
     current_lang_idx = (current_lang_idx - 1) % len(LANGS)
 
 
-def open_level(path=None):
-    global current_editor_level, ignore_button_up
+def open_file_dialog():
+    global ignore_button_up
+    if sys.platform == "darwin":
+        result = subprocess.run(
+            [
+                "osascript",
+                "-e",
+                f'POSIX path of (choose file with prompt "Select a file" default location (POSIX file "{LEVELS_DIR}"))'
+            ],
+            capture_output=True,
+            text=True
+        )
 
-    with open(f"{LOCAL_DIR}/assets/levels/levels.json", "r") as levels_list_file:
-        levels_list = json.load(levels_list_file)
+        if result.returncode == 0:
+            return result.stdout.strip()
 
-    if path is None:
+        return None
+    else:
         tk_window = tkinter.Tk()
         tk_window.withdraw()
-        path = tkinter.filedialog.askopenfilename(parent=tk_window, initialdir=f"{LOCAL_DIR}/assets/levels/custom")
+        path = tkinter.filedialog.askopenfilename(parent=tk_window, initialdir=f"{LEVELS_DIR}")
         tk_window.destroy()
         ignore_button_up = True
+        return path
+
+
+def open_level(path=None):
+    global current_editor_level
+
+    with open(f"{LEVELS_DIR}/levels.json", "r") as levels_list_file:
+        levels_list = json.load(levels_list_file)
+
+    path = open_file_dialog()
+    if path is None or path == "":
+        return False
 
     path = path.replace("\\", "/")
 
     if path in LOCKED_LEVELS:
         set_layout(LayoutTypes.FAILED_OPENING)
-        return
+        return False
 
     try:
         level = load_level(path)
@@ -415,15 +439,15 @@ def open_level(path=None):
     player1.locked = False
     player2.locked = False
 
-    added = not level_name in levels_list["custom"][":order"]
+    added = not level_name in levels_list["order"]
     if added:
-        levels_list["custom"][":order"].append(level_name)
-        levels_list["custom"][level_name] = path
+        levels_list["order"].append(level_name)
+        levels_list["files"][level_name] = path
         levels.append((level_name, path))
-        with open(f"{LOCAL_DIR}/assets/levels/levels.json", "w") as levels_list_file:
+        with open(f"{LEVELS_DIR}/levels.json", "w") as levels_list_file:
             json.dump(levels_list, levels_list_file, indent=4)
     else:
-        levels[levels_list["custom"][":order"].index(level_name) + len(levels_list["normal"])] = (level_name, path)
+        levels[levels_list["order"].index(level_name) + len(LEVELS_LIST)] = (level_name, path)
         return True
 
     if len(GAME_LAYOUTS[LayoutTypes.LEVEL_SELECT].others[0].pages) == 1 or \
@@ -455,15 +479,15 @@ def open_level(path=None):
 
 def create_level(overwrite=False):
     global new_level_text
-    if os.path.exists(f"{LOCAL_DIR}/assets/levels/custom/{new_level_text._current_text}.level") and not overwrite:
+    if os.path.exists(f"{LEVELS_DIR}/custom/{new_level_text._current_text}.level") and not overwrite:
         set_layout(LayoutTypes.OVERWRITE)
         return
 
     with open(f"{LOCAL_DIR}/assets/levels/new_level_default.level", "rb") as base_file:
-        with open(f"{LOCAL_DIR}/assets/levels/custom/{new_level_text._current_text}.level", "wb+") as new_level_file:
+        with open(f"{LEVELS_DIR}/{new_level_text._current_text}.level", "wb+") as new_level_file:
             new_level_file.write(base_file.read())
 
-    open_level(f"{LOCAL_DIR}/assets/levels/custom/{new_level_text._current_text}.level")
+    open_level(f"{LEVELS_DIR}/{new_level_text._current_text}.level")
 
     new_level_text._current_text = ""
     new_level_text._cursor_pos = 0
@@ -624,11 +648,11 @@ def save_level():
 
     if current_editor_level is None: return
 
-    with open(f"{LOCAL_DIR}/assets/levels/levels.json") as level_info_file:
+    with open(f"{LEVELS_DIR}/levels.json") as level_info_file:
         level_info = json.load(level_info_file)
 
     encrypter.encrypt(json.dumps(current_editor_level[0].data),
-                      level_info["custom"][current_editor_level[0].name],
+                      level_info["files"][current_editor_level[0].name],
                       False)
 
     edits_history = []
